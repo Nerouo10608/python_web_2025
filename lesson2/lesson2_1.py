@@ -27,5 +27,3 @@ def main():
 
 if __name__ == "__main__":
     main() # 呼叫 main function
-else:
-    print("這不是python直接執行")
