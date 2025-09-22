@@ -1,4 +1,3 @@
-
 def calculate_sum(n):
     """
     Calculate sum from 1 to n
@@ -27,6 +26,6 @@ def main():
     print(f"Sum of numbers 1 to 5: {result}")
 
 if __name__ == "__main__":
-    print("這是python直接執行")
+    main() # 呼叫 main function
 else:
     print("這不是python直接執行")
