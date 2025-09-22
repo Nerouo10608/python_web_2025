@@ -1,3 +1,4 @@
+
 def calculate_sum(n):
     """
     Calculate sum from 1 to n
@@ -28,4 +29,4 @@ def main():
 if __name__ == "__main__":
     print("這是python直接執行")
 else:
-    print("This module is being imported")
+    print("這不是python直接執行")
