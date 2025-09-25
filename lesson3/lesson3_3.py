@@ -1,6 +1,6 @@
 import requests
 
-url = 'https://data.ntpc.gov.tw/api/datasets/010e5b15-3823-4b20-b401-b1cf000550c5/json?page=0&size=100'
+url = 'https://data.ntpc.gov.tw/api/datasets/010e5b15-3823-4b20-b401-b1cf000550c5/json?page=0&size=10'
 
 
 response = requests.get(url)
@@ -19,7 +19,10 @@ print(type(response))
 try:
     response = requests.get(url)
     response.raise_for_status
-    data = response.json
+    try:
+        data = response.json()
+    except requests.exceptions.JSONDecodeError as jsonError:
+        print(f"發生轉換格是錯誤:jsonError")
 except requests.exceptions.HTTPError as err_http:
     # 捕捉 HTTP 狀態碼錯誤 (4xx 或 5xx)
     print(f"發生 HTTP 錯誤: {err_http}")
@@ -33,4 +36,4 @@ except requests.exceptions.RequestException as err:
     # 捕捉所有 requests 相關的泛型錯誤
     print(f"發生不明錯誤: {err}")
 else:
-    print("沒有出錯")
+    print(f"沒有出錯:\n{data}")
