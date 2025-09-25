@@ -1,6 +1,6 @@
 import requests
 
-def download_youbike_data():
+def download_youbike_data()->list:
     url = 'https://data.ntpc.gov.tw/api/datasets/010e5b15-3823-4b20-b401-b1cf000550c5/json?page=0&size=10'
 
     response = requests.get(url)
@@ -22,21 +22,28 @@ def download_youbike_data():
         try:
             data = response.json()
         except requests.exceptions.JSONDecodeError as jsonError:
-            print(f"發生轉換格是錯誤:jsonError")
+            raise Exception(f"發生轉換格是錯誤:jsonError")
     except requests.exceptions.HTTPError as err_http:
         # 捕捉 HTTP 狀態碼錯誤 (4xx 或 5xx)
-        print(f"發生 HTTP 錯誤: {err_http}")
+        raise Exception(f"發生 HTTP 錯誤: {err_http}")
     except requests.exceptions.ConnectionError as err_conn:
         # 捕捉連線錯誤，如 DNS 解析失敗、拒絕連線等
-        print(f"發生連線錯誤: {err_conn}")
+        raise Exception(f"發生連線錯誤: {err_conn}")
     except requests.exceptions.Timeout as err_timeout:
         # 捕捉超時錯誤
-        print(f"請求超時: {err_timeout}")
+        raise Exception(f"請求超時: {err_timeout}")
     except requests.exceptions.RequestException as err:
         # 捕捉所有 requests 相關的泛型錯誤
-        print(f"發生不明錯誤: {err}")
+        raise Exception(f"發生不明錯誤: {err}")
     else:
-        print(f"沒有出錯:\n{data}")
+        return data
+
+def main():
+    try:
+        data = download_youbike_data()
+        print(data)
+    except Exception as e:
+        print(f"發生錯誤\n{e}")
 
 if __name__ == "__main__":
-    download_youbike_data()
+    main()
