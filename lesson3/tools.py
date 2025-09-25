@@ -1,7 +1,7 @@
 import requests
 
 def download_youbike_data()->list:
-    url = 'https://data.ntpc.gov.tw/api/datasets/010e5b15-3823-4b20-b401-b1cf000550c5/json?page=0&size=10'
+    url = 'https://data.ntpc.gov.tw/api/datasets/010e5b15-3823-4b20-b401-b1cf000550c5/json?page=0&size=1000'
 
     response = requests.get(url)
     print(type(response))
@@ -37,3 +37,9 @@ def download_youbike_data()->list:
         raise Exception(f"發生不明錯誤: {err}")
     else:
         return data
+    
+def get_area(data)->list:
+    areas = set()
+    for item in data:
+        areas.add(item["sarea"])
+    return list(areas)
