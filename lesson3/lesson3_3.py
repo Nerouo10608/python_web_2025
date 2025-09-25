@@ -9,7 +9,8 @@ def main():
             print(area, end=" ")
         print("\n")
         selected = input("請選擇一個區域:")
-        print(selected)
+        sites_of_area = tools.get_sites_of_area(data, selected)
+        print(sites_of_area)
 
     except Exception as e:
         print(f"發生錯誤\n{e}")
