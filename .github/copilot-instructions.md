@@ -1,70 +1,51 @@
-# AI Copilot 指南 - TVDI Python 機器學習課程專案
+## AI 協作說明 — python_web_2025
 
-## 專案概述
-這是職能發展學院 (TVDI) 的 Python 機器學習課程專案，主要用於教學目的。專案結構為課程導向，按課次組織內容。
+本倉庫是 Python/資料處理與基礎 Web 教學範例集合（含 notebooks 與腳本）。目標是讓代理能快速定位檔案、用正確方式執行/擴充，並遵循既有模式寫出可維護的課程範例。
 
-## AI回應
-- 繁體中文
-- 回應,應該淺顯易懂
+### 專案結構與重點
+- 根目錄：`pyproject.toml`（Python>=3.10；deps: flask, notebook, requests），`uv.lock`（建議用 uv 管理環境）。
+- 課程資料：
+  - `lesson1/`、`lesson2/`：Python 基礎與函式（參見 `lesson2/README.md`、`lesson2/AGENTS.md`）。
+  - `lesson3/`：資料抓取與資料處理模式（關鍵：`lesson3/tools.py`、`lesson3_3.py`）。
+  - `lesson4/`：練習/演算法小題。
+- 風格：以 CLI/print 與 `input()` 互動為主；教學文字多為繁體中文。
 
-## 專案架構與組織
-- 課程依節數規劃:
-  - 例如:'資料夾:lesson1資料夾','資料夾:lesson2'  
-- `link/` - 課程錄影連結與學習資源
-- `.python-version` - 固定使用 Python 3.10
-- `pyproject.toml` - 使用 uv 作為依賴管理工具，主要依賴 Flask
+### 執行與環境（Windows/cmd）
+- 建議使用 uv（因有 `uv.lock`）
+  - 建置依賴：`uv sync`
+  - 執行腳本：`uv run python lesson3\lesson3_3.py`
+- 若用 pip（無 requirements.txt）：`py -m venv .venv && .venv\Scripts\activate && pip install flask notebook requests`
+- 執行含輸入的腳本（範例將「板橋區」餵給程式）：`echo 板橋區 | uv run python lesson3\lesson3_3.py`
 
-## 課程內容:
-    - 資料夾:lesson1(基礎python)
-    - 資料夾:lesson2(python function,class,module)
+### 既有程式設計模式（請延續）
+- 分層：
+  - 資料/網路層在模組（例如 `lesson3/tools.py`）中提供「小而純」的函式。
+  - I/O 與互動在可執行腳本（例如 `lesson3_3.py`）中進行。
+- 例：`download_youbike_data() -> list` 以 requests 取回外部 JSON；`get_area(data) -> list` 從項目萃取 `sarea`；`get_sites_of_area(data, area) -> list` 依區域過濾。
+- 命名：snake_case，函式簽章簡潔清楚；輸出以可列印資料結構為主（list/dict）。
 
-## 開發環境配置
-- **Python 版本**: 3.10 (由 `.python-version` 指定)
-- **依賴管理**: 使用 `uv` (不是 pip/poetry)
-- **虛擬環境**: `.venv/` 目錄，已在版控中忽略
-- **主要依賴**: Flask >=3.1.2
+### 外部整合與資料流
+- 對外資料：新北市 YouBike 開放資料（JSON）。呼叫在 `lesson3/tools.py`，下游函式只處理 Python 物件，不直接發網路請求。
+- 請保持「網路 I/O 與資料轉換分離」：新增功能時，先在 tools 模組寫純函式，再在執行腳本組裝流程與互動。
 
-## 編碼約定與模式
-- **語言混用**: 程式碼註解使用繁體中文，如 `#呼叫calculate_sum()`
-- **函數命名**: 使用英文 snake_case，如 `calculate_sum()`
-- **除錯配置**: VS Code launch.json 配置為繁體中文介面
-- **檔案命名**: 課程檔案以 `lesson{n}_{m}.py` 或 `.ipynb` 格式命名
+### 常見陷阱與修正建議（維持可用範例為主）
+- `tools.download_youbike_data()` 中 `response.raise_for_status` 需呼叫成 `response.raise_for_status()`，且避免重複 `requests.get()`；若你改動此區，保留既有的例外處理訊息格式（繁中）。
+- 以 `UTF-8` 讀寫檔案/字串，確保中文正常顯示。
+- Notebook 用於探索；可重用的邏輯請放 `.py` 模組並從 notebook 匯入。
 
-## 開發工作流程
-```bash
-# 安裝依賴 (使用 uv 而非 pip)
-uv install
+### 新增功能的建議落點（依既有模式）
+- 新資料來源或轉換：加到 `lesson3/tools.py` 或新增相近模組，提供純函式 API（輸入/輸出為 Python 內建型別）。
+- 新互動腳本或示範：新增到對應 `lessonX/` 目錄（例如 `lesson3/your_demo.py`），在 `if __name__ == "__main__":` 中組裝流程與輸入提示。
 
-# 執行 Python 檔案
-python lesson2/lesson2_1.py
-
-# 啟動 Jupyter notebook (lesson1)
-jupyter notebook lesson1/
+### 小範例（延續專案風格）
+```python
+# 讀取資料 → 列區域 → 依選擇過濾
+import tools
+data = tools.download_youbike_data()
+areas = tools.get_area(data)
+print("可查詢區域:", " ".join(areas))
+sites = tools.get_sites_of_area(data, area="板橋區")
+print(f"板橋區站點數: {len(sites)}")
 ```
 
-## VS Code 偵錯設定
-專案已配置中文版 VS Code 偵錯器：
-- 偵錯器名稱: "Python 偵錯工具: 目前檔案"
-- 執行當前檔案使用整合終端機
-
-## 教學專案特色
-- **中英文混合**: 變數名稱為英文，註解為繁體中文
-- **課程導向結構**: 每個 lesson 目錄對應一個教學單元
-- **多媒體資源**: `link/README.md` 包含 YouTube 課程錄影連結
-- **漸進式學習**: lesson1 使用互動式 Notebooks，lesson2 轉為 Python scripts
-
-## 重要檔案模式
-- **主程式模式**: 使用 `if __name__ == "__main__":` 模式
-- **函數分離**: 計算邏輯與主程式分離，如 `calculate_sum()` 與 `main()`
-- **中文註解**: 在關鍵程式行加入中文說明，幫助學習理解
-
-## 課程資源管理
-- 每個上課日期在 `link/README.md` 中記錄對應的 YouTube 連結
-- 使用 Google Meet 進行線上授課
-- 課程內容按日期與時段 (上午/下午) 組織
-
-建議在處理此專案時：
-1. 保持中英文混合的註解風格
-2. 遵循課程導向的檔案命名規範
-3. 使用 uv 管理依賴，而非其他工具
-4. 考慮教學目的，程式碼應簡潔易懂
+若有你常用但文件未涵蓋的工作流程（例如 VS Code 偵錯設定、Flask 實作路徑等），請回饋，我們會補充到本檔使代理能即時上手。
