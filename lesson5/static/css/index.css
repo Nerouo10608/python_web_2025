@@ -41,14 +41,16 @@ header h1 {
     list-style: none;
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
+    gap: 20px;
+    /* 原為 12px，增加按鈕間距 */
 }
 
 .site-nav a {
     /* 將文字色由 #26453D 調亮 */
     color: #3E6B62;
     text-decoration: none;
-    padding: 0.5rem 0.75rem;
+    padding: 0.6rem 1rem;
+    /* 原為 0.5rem 0.75rem，放大按鈕內距 */
     border-radius: 6px;
 }
 
