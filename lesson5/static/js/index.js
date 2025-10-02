@@ -12,16 +12,23 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.setAttribute('aria-controls', menu.id);
     btn.setAttribute('aria-expanded', 'false');
     btn.setAttribute('aria-label', '切換主選單');
-    btn.textContent = '選單';
+
+    // 建立圖示 span
+    const icon = document.createElement('span');
+    icon.className = 'menu-icon';
+    icon.innerHTML = '☰';
+    btn.appendChild(icon);
 
     nav.insertBefore(btn, menu);
 
     const closeMenu = () => {
         nav.classList.remove('is-open');
+        btn.querySelector('.menu-icon').innerHTML = '☰';
         btn.setAttribute('aria-expanded', 'false');
     };
     const openMenu = () => {
         nav.classList.add('is-open');
+        btn.querySelector('.menu-icon').innerHTML = '×';
         btn.setAttribute('aria-expanded', 'true');
     };
 
