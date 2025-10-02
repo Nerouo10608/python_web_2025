@@ -74,11 +74,70 @@ footer {
     color: #fff;
 }
 
+/* RWD 導覽列切換按鈕（桌機隱藏、手機顯示） */
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid #cbd5d1;
+    color: #3E6B62;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.menu-toggle:hover {
+    background-color: #e7efed;
+}
 
 /* RWD 斷點設定 */
 @media (max-width: 768px) {
     .container {
         padding: 0 10px;
+    }
+
+    .site-nav {
+        display: block;
+        /* 直向排版，確保按鈕與選單分行 */
+    }
+
+    .menu-toggle {
+        display: block;
+        /* 原為 inline-flex，改為獨佔一行 */
+        width: 100%;
+        margin: 8px 0;
+    }
+
+    .site-nav .menu {
+        /* 手機預設收合，展開由 .is-open 控制 */
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        width: 100%;
+        margin-top: 6px;
+        /* 與按鈕保持距離 */
+        align-items: stretch;
+        /* 讓項目撐滿容器寬度 */
+        gap: 8px;
+        /* 增加垂直間距，避免重疊 */
+    }
+
+    .site-nav.is-open .menu {
+        display: flex;
+    }
+
+    .site-nav .menu li {
+        border-top: 1px solid #e0e0e0;
+        width: 100%;
+    }
+
+    .site-nav .menu a {
+        padding: 0.9rem 1rem;
+        /* 手機上更大的可點擊區 */
+        display: block;
+        /* a 改為區塊，避免與相鄰項目重疊 */
+        width: 100%;
+        line-height: 1.4;
+        box-sizing: border-box;
     }
 }
 
