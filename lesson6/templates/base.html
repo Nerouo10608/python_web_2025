@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {# 這裡放的是註解 #}
     <title>{% block title %}{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lesson6_1.css') }}">
 </head>
 
 <body>
@@ -36,7 +36,7 @@
 
         {% block js %}
         {% endblock %}
-        
+
     </div>
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
