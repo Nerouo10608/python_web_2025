@@ -33,6 +33,10 @@
         <footer>
             <p>&copy; 2025 Python Web 課程</p>
         </footer>
+
+        {% block js %}
+        {% endblock %}
+        
     </div>
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
