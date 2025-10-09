@@ -20,3 +20,7 @@
 <script src = "{{ url_for('static', filename='js/lesson6_1.js') }}"></script>
 {% endblock %}
 
+{% block head %}
+{{ super() }} 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/lesson6_2.css') }}">
+{% endblock %}

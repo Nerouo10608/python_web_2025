@@ -2,11 +2,13 @@
 <html lang="zh-TW">
 
 <head>
+    {% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {# 這裡放的是註解 #}
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/lesson6_1.css') }}">
+    {% endblock %}
 </head>
 
 <body>
