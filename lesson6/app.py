@@ -8,7 +8,8 @@ def index():
 
 @app.route("/lesson6_1")
 def lesson6_1():
-    return  render_template("lesson6_1.html")
+    page_title = "我的首頁"
+    return  render_template("lesson6_1.html", title = page_title)
 
 def main():
     """啟動應用(教學用：啟用 debug 模式)"""
