@@ -9,7 +9,12 @@ def index():
 @app.route("/lesson6_1")
 def lesson6_1():
     page_title = "我的首頁"
-    return  render_template("lesson6_1.html", title = page_title)
+    users = [
+        {"name": "小明", "is_vip": True},
+        {"name": "小華", "is_vip": False},
+        {"name": "小英", "is_vip": True}
+    ]
+    return  render_template("lesson6_1.html", title = page_title, user_list = users)
 
 def main():
     """啟動應用(教學用：啟用 debug 模式)"""
