@@ -6,6 +6,14 @@ app = Flask(__name__, static_folder="static", template_folder="templates")
 def index():
     return render_template("index.html")
 
+@app.route("/regression")
+def regression():
+    return render_template("regression.html")
+
+@app.route("/knn")
+def knn():
+    return render_template("knn.html")
+
 @app.route("/lesson6_1")
 def lesson6_1():
     page_title = "我的首頁"
