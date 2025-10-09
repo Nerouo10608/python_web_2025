@@ -1,0 +1,155 @@
+/* 提取自 templates/index.html 的原始樣式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+/* header 標題靠左（覆寫可能的置中樣式） */
+header h1 {
+    text-align: left;
+    margin: 0;
+}
+
+/* 導覽列 */
+.site-nav {
+    background-color: #f5f5f5;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.site-nav .menu {
+    margin: 0;
+    padding: 10px;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+    /* 原為 12px，增加按鈕間距 */
+}
+
+.site-nav a {
+    /* 將文字色由 #26453D 調亮 */
+    color: #3E6B62;
+    text-decoration: none;
+    padding: 0.6rem 1rem;
+    /* 原為 0.5rem 0.75rem，放大按鈕內距 */
+    border-radius: 6px;
+}
+
+.site-nav a:hover,
+.site-nav a[aria-current="page"] {
+    /* 將按鈕背景由 #26453D 調亮 */
+    background-color: #5C736D;
+    /* 保持文字為白色以維持對比 */
+    color: #fff;
+}
+
+main {
+    margin: 2rem 0;
+}
+
+/* Footer 樣式 */
+footer {
+    /* 將 footer 背景由 #26453D 調亮 */
+    background-color: #5C736D;
+    text-align: center;
+    color: #fff;
+}
+
+/* RWD 導覽列切換按鈕（桌機隱藏、手機顯示） */
+.menu-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid #cbd5d1;
+    color: #3E6B62;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.menu-toggle:hover {
+    background-color: #e7efed;
+}
+
+.menu-icon {
+    display: inline-block;
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: transform 0.3s ease;
+}
+
+/* RWD 斷點設定 */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 10px;
+    }
+
+    .site-nav {
+        display: block;
+        /* 直向排版，確保按鈕與選單分行 */
+    }
+
+    .menu-toggle {
+        display: block;
+        /* 原為 inline-flex，改為獨佔一行 */
+        width: 100%;
+        margin: 8px 0;
+    }
+
+    .site-nav .menu {
+        /* 手機預設收合，展開由 .is-open 控制 */
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        width: 100%;
+        margin-top: 6px;
+        /* 與按鈕保持距離 */
+        align-items: stretch;
+        /* 讓項目撐滿容器寬度 */
+        gap: 8px;
+        /* 增加垂直間距，避免重疊 */
+    }
+
+    .site-nav.is-open .menu {
+        display: flex;
+    }
+
+    .site-nav .menu li {
+        border-top: 1px solid #e0e0e0;
+        width: 100%;
+    }
+
+    .site-nav .menu a {
+        padding: 0.9rem 1rem;
+        /* 手機上更大的可點擊區 */
+        display: block;
+        /* a 改為區塊，避免與相鄰項目重疊 */
+        width: 100%;
+        line-height: 1.4;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+}
