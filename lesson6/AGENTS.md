@@ -1,4 +1,4 @@
-# Lesson 5: Flask 專案說明
+# Lesson 6: Flask 專案說明
 
 這是一個使用 Python Flask 框架開發的簡易網頁應用程式。
 
@@ -9,7 +9,7 @@
 **執行應用程式：**
 請在**專案根目錄** (`python_web_2025`) 執行以下指令來啟動伺服器：
 ```bash
-uv run python ./lesson5/app.py
+uv run python ./lesson6/app.py
 ```
 
 ## 專案結構
