@@ -1,7 +1,5 @@
 from flask import Flask, render_template
 
-
-# test
 app = Flask(__name__, static_folder="static", template_folder="templates")
 
 @app.route("/") # "/" 代表根目錄，即為首頁。

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/decision_tree.css') }}">
+{% endblock %}
+
+{% block header %}
+<h1>職能發展學院</h1>
+{% endblock %}
+
+{% block content %}
+<h1>{{ tree_info.algorithm }}</h1>
+<p>決策樹是一種直觀的樹狀圖模型，它模擬人類的決策過程來進行預測與分類。模型從代表整個資料集的「根節點」開始，根據某個特徵的條件將資料分割成不同的分支，每個分支代表一個決策路徑，最終到達代表結果的「葉節點」。這種方法將複雜的決策問題，拆解成一系列簡單的選擇，使其易於理解與實現。
+</p>
+
+<h2>應用</h2>
+<ul>
+    {% for app in tree_info.applications %}
+    <li>{{ app }}</li>
+    {% endfor %}
+</ul>
+
+<h2>優點</h2>
+<ul>
+    {% for p in tree_info.pros %}
+    <li>{{ p }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
