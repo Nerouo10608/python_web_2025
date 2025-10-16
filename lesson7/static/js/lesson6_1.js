@@ -1,0 +1,1 @@
+console.log("嗨，我的javasvcript成功載入了!")

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {# 這裡放的是註解 #}
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/lesson6_1.css') }}">
+    {% endblock %}
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            {% block header %}
+            {% endblock %}
+        </header>
+
+        <nav class="site-nav" aria-label="主選單">
+            <ul class="menu">
+                <li><a href="{{url_for('index')}}" {% if request.endpoint == 'index' %}aria-current="page"{% endif %}>機器學習</a></li>
+                <li><a href="{{url_for('regression')}}" {% if request.endpoint == 'regression' %}aria-current="page"{% endif %}>線性迴歸</a></li>
+                <li><a href="{{url_for('knn')}}" {% if request.endpoint == 'knn' %}aria-current="page"{% endif %}>k近鄰分類</a></li>
+                <li><a href="#" {% if request.endpoint == 'contact' %}aria-current="page"{% endif %}>聯絡方法</a></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Python Web 課程</p>
+        </footer>
+
+        {% block js %}
+        {% endblock %}
+
+    </div>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+
+</html>
