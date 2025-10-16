@@ -6,6 +6,15 @@ app = Flask(__name__, static_folder="static", template_folder="templates")
 def index():
     return render_template("index.html")
 
+@app.route("/decision_tree")
+def decision_tree():
+    tree_info = {
+    "algorithm": "決策樹分類",
+    "applications": ["垃圾郵件分類", "客戶流失預測", "疾病診斷"],
+    "pros": ["容易理解", "不需要特徵縮放", "可視化清晰"]
+}
+    return render_template("decision_tree.html", tree_info = tree_info)
+
 @app.route("/regression")
 def regression():
     return render_template("regression.html")
