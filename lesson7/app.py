@@ -14,6 +14,10 @@ def knn():
 def regression():
     return render_template("regression.html")
 
+@app.route("/homework2")
+def homework2():
+    return render_template("homework2.html")
+
 @app.route("/test")
 def test():
     return render_template("test.html")

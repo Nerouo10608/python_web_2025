@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>顯示/隱藏答案考題</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../static/css/homework2.css">
 </head>
 
 <body>
@@ -20,7 +20,17 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const buttonElement = document.querySelector('.toggle-button');
+            const contentElement = document.querySelector('.answer-content');
+
+            buttonElement.addEventListener('click', function () {
+                contentElement.classList.toggle('visible');
+                buttonElement.textContent = contentElement.classList.contains('visible') ? '隱藏答案' : '顯示答案';
+            });
+        });
+    </script>
 </body>
 
 </html>
