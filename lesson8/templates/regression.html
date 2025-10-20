@@ -82,6 +82,43 @@
         </div>
     </div>
 
+    <!-- 模型資訊 -->
+    <div class="model-info">
+        <h3>模型資訊</h3>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">資料集：</span>
+                <span class="info-value" id="dataset-name">--</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">總樣本數：</span>
+                <span class="info-value" id="total-samples">--</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">訓練集大小：</span>
+                <span class="info-value" id="train-size">--</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">測試集大小：</span>
+                <span class="info-value" id="test-size">--</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">預測目標：</span>
+                <span class="info-value" id="target-name">--</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 圖例說明 -->
+    <div class="legend-info">
+        <h4>圖表說明</h4>
+        <ul>
+            <li><span class="legend-dot train"></span> 訓練資料點</li>
+            <li><span class="legend-dot test"></span> 測試資料點</li>
+            <li><span class="legend-line"></span> 線性迴歸線</li>
+        </ul>
+        <p class="help-text">將滑鼠移到資料點上可以看到詳細資訊</p>
+    </div>
 
 </div>
 {% endblock %}
