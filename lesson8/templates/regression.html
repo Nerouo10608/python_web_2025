@@ -2,6 +2,15 @@
 
 {% block title %}職能發展學院-線性迴歸{% endblock %}
 
+{% block head %}
+    {{super()}}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/regression.css') }}">
+{% endblock %}
+
 {% block content %}
 <h1>線性迴歸</h1>
+{% endblock %}
+
+{% block code %}
+    <script src="{{ url_for('static', filename='js/regression.js') }}"></script>
 {% endblock %}
