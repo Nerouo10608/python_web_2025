@@ -2,20 +2,37 @@
 <html>
 <head>
     <title>範例1</title>
+    
 </head>
 <body>
-    <h1 id="title">這是標題</h1>
-    <button id="myButton">點我改變標題</button>
+    <div>
+        <canvas id="myChart"></canvas>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <script>
-        console.error("window是全域物件")
-        document.addEventListener("DOMContentLoaded",function(){
-            const titleElement = document.querySelector('#title')
-            const buttonElement = document.querySelector('#myButton')
+        const ctx = document.getElementById('myChart');
 
-            buttonElement.addEventListener('click',function(){
-                titleElement.textContent = "標題被我改變了"
-            })
-        })
-    </script>   
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+ 
 </body>
 </html>
