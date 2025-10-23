@@ -24,10 +24,40 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             console.log("Chart.js已經載入，現在可以使用'Chart'這個物件了。");
-            const canvasElement = document.getElementById('myChartCanvas');
-            const ctx = canvasElement.getContext('2d')
-            console.log(ctx);
-        })
+            // 3. JS: 抓去畫布和2D工具箱
+            const ctx = document.getElementById('myChartCanvas').getContext('2d');
+            // 散點圖的資料
+            const studentData = [
+                { x: 158, y: 55},
+                { x: 160, y: 60},
+                { x: 162, y: 65},
+                { x: 164, y: 70},
+                { x: 166, y: 75},
+                { x: 168, y: 80},
+                { x: 170, y: 81},
+                { x: 172, y: 78},
+            ];
+
+            //建立圖表
+            const myScatterChart = new Chart(ctx,{
+                // 指定圖表類型為Scatter
+                type: 'scatter',
+
+                // data物件，存放資料
+                data:{
+                    datasets:[
+                        {
+                            label: '學生身高體重 (第一組)',
+                            data: studentData,
+                            backgroundColor: 'rgba(255, 99, 132, 0.6)', //點的顏色
+                            borderColor: 'rgba(255, 99, 132, 1)', //邊框的顏色
+                            pointRadius: 8, // 點的大小
+                            pointHoverRadius: 10, // 滑鼠移上去時的點的大小
+                        }
+                    ]
+                }
+            })
+        });
     </script>
  
 </body>
