@@ -13,6 +13,8 @@
     
     <script>
         const ctx = document.getElementById('myChart');
+        console.log("Hello JavaScript")
+        debugger
 
         new Chart(ctx, {
             type: 'bar',
@@ -25,6 +27,8 @@
                 }]
             },
             options: {
+                responsive: false,
+                maintainAspectRatio: false,
                 scales: {
                     y: {
                         beginAtZero: true
