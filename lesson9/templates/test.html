@@ -7,7 +7,7 @@
         .chart-container{
             position:relative;
             width: 80vw;
-            height: 60vh;
+            height: 80vh;
             margin:20px auto; /*置中*/
             border: 1px solid #ddd
         }
@@ -53,8 +53,43 @@
                             borderColor: 'rgba(255, 99, 132, 1)', //邊框的顏色
                             pointRadius: 8, // 點的大小
                             pointHoverRadius: 10, // 滑鼠移上去時的點的大小
+                        },
+                        {
+                            label: '學生身高體重 (第二組)',
+                            data: [
+                                {x:160, y:70},
+                                {x:170, y:80},
+                            ],
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            pointRadius: 8, // 點的大小
+                            pointHoverRadius: 10, // 滑鼠移上去時的點的大小
                         }
                     ]
+                },
+                //options物件,設定圖表的外觀
+                options:{
+                    responsive: true,
+                    maintainAspectRatio: false,
+
+                    //座標軸設定
+                    scales:{
+                        x:{
+                            type: 'linear',
+                            position:'bottom',
+                            title:{
+                                display:true,
+                                text:'身高(cm)',
+                                font:{size: 16}
+                            }
+                        },
+                        y:{
+                            title: {
+                                display: true,
+                                text: '體重(kg)',
+                                font: { size: 16 }
+                            }
+                        }
+                    }
                 }
             })
         });
