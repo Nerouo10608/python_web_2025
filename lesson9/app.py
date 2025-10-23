@@ -6,6 +6,9 @@ from sklearn.metrics import r2_score, mean_squared_error
 import numpy as np
 
 app = Flask(__name__)
+# 自訂義JSON序列化設定
+app.json.ensure_ascii = False
+
 
 @app.route("/")
 def index():
