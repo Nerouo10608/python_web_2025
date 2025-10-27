@@ -100,6 +100,23 @@ function renderChart(data){
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            onClink: function (evt, activeElements) {
+                if (activeElements.legnth > 0) {
+                    const element = activeElements[0]
+                    const datasetIndex = element.datasetIndex
+                    const index = element.index
+                    const dataset = chart.data.datasets[datasetIndex]
+                    console.table(dataset)
+
+                    if (datasetIndex === 0 || datasetIndex === 1) { //訓練或測試資
+                        const point = dataset.data[index]
+                        const rooms = point.x
+                        
+                        //更新輸入框
+                        document.getElementById('rooms-input').value = rooms.toFixed(1)
+                    }
+                }
+            },
             plugins: {
                 title: {
                     display: true,
@@ -109,7 +126,27 @@ function renderChart(data){
                         weight: 'bold'
                     },
                     padding: 20
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            const datasetLabel = context.dataset.label || '';
+                            const xValue = context.parsed.x.toFixed(2);
+                            const yValue = context.parsed.y.toFixed(2);
+                            return `${datasetLabel}: (平均房間數: ${xValue}, 房價: ${yValue})`;
+                        },
+                        afterLabel: function (context) {
+                            if (context.datasetIndex === 0 || context.datasetIndex === 1) {
+                                return '點擊可預測此資料點';
+                            }
+                            return '';
+                        }
+                    }
                 }
+            },
+            animation: {
+                duration: 1000,
+                easing: 'easeInOutQuart'
             },
             scales: {
                 x: {
@@ -141,6 +178,10 @@ function renderChart(data){
             }
         }
     })
+}
+
+function predictPrice(rooms) {
+    console.log('rooms:', rooms)
 }
 
 function showLoading(show){
