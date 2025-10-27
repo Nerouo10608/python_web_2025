@@ -180,8 +180,14 @@ function renderChart(data){
     })
 }
 
-function predictPrice(rooms) {
-    console.log('rooms:', rooms)
+async function predictPrice(rooms) {
+    if (isNaN(rooms) || rooms < 1 || rooms > 15){
+        alert('請輸入有效的房間數(1~15間)')
+        return;
+    }
+
+    const response = await fetch(`/api/regression/predict?rooms=${rooms}`)
+    console.table(response)
 }
 
 function showLoading(show){
