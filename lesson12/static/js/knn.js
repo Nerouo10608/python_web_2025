@@ -56,15 +56,15 @@ function renderChart(data) {
     //準備訓練資料集 - 按類別分類
     const datasets = []
     const numClasses = data.target_names.length;
-    
+
     // 訓練資料(按類別)
-    for (let classIdx = 0; classIdx < numClasses; classIdx++){
+    for (let classIdx = 0; classIdx < numClasses; classIdx++) {
         const trainDataForClass = data.data.train.x, map((x, i) => ({
-            x:x,
+            x: x,
             y: data.data.train.y[i],
             label: data.data.train.labels[i]
         })).filter(point => point.label == classIdx)
-        
+
 
         if (trainDataForClass.length > 0) {
             datasets.push({
@@ -83,7 +83,7 @@ function renderChart(data) {
 
     console.table(data.data.test.x)
     // 測試資料(按類別和預測結果)
-    for (let classIdx = 0; classIdx < numClasses; classIdx++){
+    for (let classIdx = 0; classIdx < numClasses; classIdx++) {
         const testDataForClass = data.data.test.x.map((x, i) => ({
             x: x,
             y: data.data.test.y[i],
@@ -140,8 +140,8 @@ function renderChart(data) {
             responsive: true,
             maintainAspectRatio: false,
             maintainAspectRatio: false,
-            plugins:{
-                title:{
+            plugins: {
+                title: {
                     display: true,
                     text: `KNN 分類視覺化{k = ${data.k_neighbors}}`,
                     font: {
@@ -196,7 +196,7 @@ function renderChart(data) {
             }
         }
     })
-    
+
 }
 
 // 顯示/隱藏載入狀態
