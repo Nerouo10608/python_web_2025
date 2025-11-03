@@ -56,7 +56,8 @@ function renderChart(data) {
     //準備訓練資料集 - 按類別分類
     const datasets = []
     const numClasses = data.target_names.length;
-    debugger;
+    
+    // 訓練資料(按類別)
     for (let classIdx = 0; classIdx < numClasses; classIdx++){
         const trainDataForClass = data.data.train.x, map((x, i) => ({
             x:x,
@@ -79,6 +80,59 @@ function renderChart(data) {
         }
 
     }
+
+    console.table(data.data.test.x)
+    // 測試資料(按類別和預測結果)
+    for (let classIdx = 0; classIdx < numClasses; classIdx++){
+        const testDataForClass = data.data.test.x.map((x, i) => ({
+            x: x,
+            y: data.data.test.y[i],
+            label: data.data.test.labels[i],
+            prediction: data.data.test.predictions[i]
+        })).filter(point => point.label == classIdx)
+
+        if (testDataForClass.length > 0) {
+            // 正確預測
+            const correctPredictions = testDataForClass.filter(
+                point => point.label === point.prediction
+            )
+
+            if (correctPredictions.length > 0) {
+                datasets.push({
+                    label: `${data.target_names[classIdx]}(測試-正確)`,
+                    data: correctPredictions,
+                    backgroundColor: classColor[classIdx].bg,
+                    borderColor: classColor[classIdx].border,
+                    pointRadius: 8,
+                    pointHoverRadius: 11,
+                    pointStyle: 'triangle',
+                    borderWidth: 3
+                })
+            }
+
+            //錯誤預測
+            const wrongPredictions = testDataForClass.filter(
+                point => point.label !== point.prediction
+            )
+
+            if (wrongPredictions.length > 0) {
+                datasets.push({
+                    label: `${data.target_names[classIdx]}(測試-錯誤)`,
+                    data: wrongPredictions,
+                    backgroundColor: 'rgba(255,0,0,0.6)',
+                    borderColor: 'rgba(255,0,0,1)',
+                    pointRadius: 10,
+                    pointHoverRadius: 13,
+                    pointStyle: 'crossRot',
+                    borderWidth: 3
+                })
+            }
+        }
+    }
+
+    // 建立圖表
+    
+    
 }
 
 // 顯示/隱藏載入狀態
