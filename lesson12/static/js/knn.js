@@ -4,6 +4,12 @@ let targetNames = null;
 let featureNames = null;
 let chart = null;
 
+// 類別顏色配置
+const classColor = [
+    { bg: 'rgba(255,99,132,0.6)', border: 'rgba(255,99,132,1)' },
+    { bg: 'rgba(54,162,235,0.6)', border: 'rgba(54,162,235,1)' },
+    { bg: 'rgba(75,192,192,0.6)', border: 'rgba(75,192,192,1)' }
+]
 
 // 頁面載入完成後執行
 document.addEventListener('DOMContentLoaded', function () {
@@ -38,7 +44,7 @@ async function loadKnnData() {
 function renderChart(data) {
     console.table(modelData)
     console.log(chart)
-    
+
     //取得canvas的context
     const ctx = document.getElementById("knnChart").getContext('2d')
 
@@ -47,8 +53,32 @@ function renderChart(data) {
         chart.destroy()
     }
 
-    //準備訓練資料集
-    const trainData = data.data.train.x
+    //準備訓練資料集 - 按類別分類
+    const datasets = []
+    const numClasses = data.target_names.length;
+    debugger;
+    for (let classIdx = 0; classIdx < numClasses; classIdx++){
+        const trainDataForClass = data.data.train.x, map((x, i) => ({
+            x:x,
+            y: data.data.train.y[i],
+            label: data.data.train.labels[i]
+        })).filter(point => point.label == classIdx)
+        
+
+        if (trainDataForClass.length > 0) {
+            datasets.push({
+                label: `${data.target_names[classIdx]}{訓練}`,
+                data: trainDataForClass,
+                backgroundColor: classColor[classIdx].bg,
+                borderColor: classColor[classIdx].border,
+                pointRadius: 6,
+                pointHoverRadius: 9,
+                pointStyle: 'circle',
+                borderWidth: 2
+            })
+        }
+
+    }
 }
 
 // 顯示/隱藏載入狀態
