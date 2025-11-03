@@ -1,5 +1,9 @@
 from flask import Blueprint,render_template,jsonify
 from sklearn.datasets import load_iris
+from flask import request
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
 
 knn_bp = Blueprint(
     'knn',
@@ -26,10 +30,42 @@ def knn_data():
     target_names_zh = ["山鳶尾", "變色鳶尾", "維吉尼亞鳶尾"]
 
     # 取得特徵索引(預設使用花瓣長度和花瓣寬度)
-    print(X.shape)
-    print(y.shape)
-    print(feature_names_zh)
-    print(target_names_zh)
+    feature_X = int(request.args.get('feature_x', 2))
+    feature_y = int(request.args.get('feature_y', 3))
+    k_neighbors = int(request.args.get('k', 5))
+
+    print(X.shape[1])
+
+    # 驗證參數
+    if feature_X < 0 or feature_X >= X.shape[1]:
+        feature_x = 2
+
+    if feature_y < 0 or feature_y >= X.shape[1]:
+        feature_y = 3
+
+    if k_neighbors < 1 or k_neighbors > 20:
+        k_neighbors = 5
+
+    # 使用兩個特徵進行分類
+    X_2d = X[:, [feature_X, feature_y]]
+
+    # 分割訓練和測試資料
+    X_train, X_test, y_train, y_test = train_test_split(X_2d, y, test_size = 0.3, random_state = 42)
+
+    # 訓練 KNN 分類器
+    knn = KNeighborsClassifier(n_neighbors=k_neighbors)
+    knn.fit(X_train, y_train)
+
+    # 預測
+    y_pred = knn.predict(X_test)
+    accuracy_score(y_test, y_pred)
+
+    # 計算評估指標
+    accuracy = accuracy_score(y_test, y_pred)
+    conf_matric = confusion_matrix(y_test, y_pred)
+
+    print(f'accuracy:{accuracy}')
+    print(f'conf_matric:{conf_matric}')
 
     return jsonify(
         {
