@@ -1,28 +1,44 @@
 let currentK = 5;
+let modelData = null;
+
 // 頁面載入完成後執行
-document.addEventListener('DOMContentLoaded',function(){
+document.addEventListener('DOMContentLoaded', function () {
     // 固定使用花瓣長度(2)和花瓣寬度(3)
     loadKnnData()
 })
 
-async function loadKnnData(){
+async function loadKnnData() {
     showLoading(true);
-    try{
+    try {
         const url = `/knn/api/data?k=${currentK}&feature_x=2&feature_y=3`
         const response = await fetch(url)
         const data = await response.json()
-        console.table(data)
-    }catch(error){
+        if (data.success) {
+            modelData = data
+            console.table(modelData)
+        } else {
+            showError(data.error)
+        }
+    } catch (error) {
         console.log(error.message)
+    } finally {
+        showLoading(false)
     }
-    
+
 }
 
-function showLoading(show){
+// 顯示/隱藏載入狀態
+function showLoading(show) {
     const loading = document.getElementById('loading');
-    if(show){
+    if (show) {
         loading.classList.add('active')
-    }else{
+    } else {
         loading.classList.remove('active')
     }
+}
+
+// 顯示錯誤訊息
+function showError(message) {
+    alert('錯誤:' + message)
+    console.error(message)
 }
