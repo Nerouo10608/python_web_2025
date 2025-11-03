@@ -38,14 +38,15 @@ async function loadKnnData() {
 function renderChart(data) {
     console.table(modelData)
     console.log(chart)
+    
     //取得canvas的context
     const ctx = document.getElementById("knnChart").getContext('2d')
-
 
     //如果圖表已經存在，先銷毀
     if (chart) {
         chart.destroy()
     }
+
     //準備訓練資料集
     const trainData = data.data.train.x
 }
