@@ -175,6 +175,16 @@ function renderChart(data) {
                             size: 11
                         }
                     }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return "Hello!"
+                        },
+                        afterLabel: function (context) {
+                            return '點擊查看詳細資訊';
+                        }
+                    }
                 }
             },
             scales: {
