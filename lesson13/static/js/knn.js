@@ -140,6 +140,18 @@ function renderChart(data){
         options:{
             responsive: true,
             maintainAspectRatio: false,
+            onClick: function (evt, activeElements) {
+                // 點擊資料點(標記)時觸發 
+                if (activeElements.length > 0) {
+                    const element = activeElements[0]
+                    const datasetIndex = element.datasetIndex
+                    const index = element.index
+                    chart.data.datasets[datasetIndex]
+                    const point = dataset.data[index]
+
+                    const datasetType = dataset.label.includes
+                }
+            },
             plugins:{
                 title:{
                     display: true,
@@ -199,6 +211,24 @@ function renderChart(data){
 
     
 }
+// 顯示分類結果
+function showClassificationResult(dataPoint, datasetType, index) {
+    const container = document.getElementById('classification-result')
+    // 取得特徵值
+    const featureX = dataPoint.x;
+    const featureY = dataPoint.y;
+    const actualLabel = dataPoint.label;
+    const prediction = dataPoint.preidction !== undefined ? dataPoint.prediction : actualLabel
+
+    // 判斷是否預測正確
+    const isCorrect = actualLabel === prediction
+
+    // 建立HTML
+    const html = `
+    
+    `
+}
+
 
 // 顯示/隱藏載入狀態
 function showLoading(show){
