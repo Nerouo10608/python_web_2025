@@ -1,6 +1,5 @@
-from flask import Blueprint,render_template,jsonify
+from flask import Blueprint,render_template,jsonify,request
 from sklearn.datasets import load_iris
-from flask import request
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score, confusion_matrix
@@ -22,7 +21,7 @@ def knn_data():
     """knn 分類 API - 使用鳶尾花資料集"""
     try:
         # 載入鳶尾花資料集
-        iris = load_iris()
+        iris = load_iris()    
         X = iris.data
         y = iris.target
 
@@ -30,17 +29,16 @@ def knn_data():
         feature_names_zh = ["花萼長度", "花萼寬度", "花瓣長度", "花瓣寬度"]
         target_names_zh = ["山鳶尾", "變色鳶尾", "維吉尼亞鳶尾"]
 
-        # 取得特徵索引(預設使用花瓣長度和花瓣寬度)
-        feature_X = int(request.args.get('feature_x', 2))
+        # 取得特徵索引（預設使用花瓣長度和花瓣寬度）
+        feature_x = int(request.args.get('feature_x',2))
         feature_y = int(request.args.get('feature_y', 3))
-        k_neighbors = int(request.args.get('k', 5))
+        k_neighbors = int(request.args.get('k',5))
 
-        print(X.shape[1])
 
-        # 驗證參數
-        if feature_X < 0 or feature_X >= X.shape[1]:
+        #驗證參數
+        if feature_x < 0 or feature_x >= X.shape[1]:
             feature_x = 2
-
+        
         if feature_y < 0 or feature_y >= X.shape[1]:
             feature_y = 3
 
@@ -48,10 +46,10 @@ def knn_data():
             k_neighbors = 5
 
         # 使用兩個特徵進行分類
-        X_2d = X[:, [feature_X, feature_y]]
+        X_2d = X[:,[feature_x, feature_y]]
 
         # 分割訓練和測試資料
-        X_train, X_test, y_train, y_test = train_test_split(X_2d, y, test_size = 0.3, random_state = 42)
+        X_train, X_test, y_train, y_test = train_test_split(X_2d, y, test_size=0.3, random_state=42)
 
         # 訓練 KNN 分類器
         knn = KNeighborsClassifier(n_neighbors=k_neighbors)
@@ -59,7 +57,6 @@ def knn_data():
 
         # 預測
         y_pred = knn.predict(X_test)
-        accuracy_score(y_test, y_pred)
 
         # 計算評估指標
         accuracy = accuracy_score(y_test, y_pred)
@@ -67,9 +64,9 @@ def knn_data():
 
         # 準備回應資料
         response = {
-            "successs": True,
-            "feature_names_zh": feature_names_zh,
-            "target_names_zh": target_names_zh,
+            "success":True,
+            "feature_names": feature_names_zh,
+            "target_names": target_names_zh,
             "current_features":{
                 "x": feature_names_zh[feature_x],
                 "y": feature_names_zh[feature_y],
@@ -91,24 +88,22 @@ def knn_data():
                 }
             },
             "metrics":{
-                "accuracy": round(accuracy, 4),
+                "accuracy": round(accuracy,4),
                 "confusion_matric": conf_matric.tolist()
             },
             "description":{
-                "dataset":"鳶尾花資料集",
+                "dataset": "鳶尾花資料集",
                 "samples": len(y),
                 "train_size": len(y_train),
                 "test_size": len(y_test),
                 "classes": len(target_names_zh)
             }
         }
-
-        print(f'accuracy:{accuracy}')
-        print(f'conf_matric:{conf_matric}')
+        
 
         return jsonify(response)
-    
     except Exception as error:
+        
         return jsonify({
             "success": False,
             "error": str(error)

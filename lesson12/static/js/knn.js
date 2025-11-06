@@ -1,3 +1,4 @@
+
 let currentK = 5;
 let modelData = null;
 let targetNames = null;
@@ -5,85 +6,86 @@ let featureNames = null;
 let chart = null;
 
 // 類別顏色配置
-const classColor = [
-    { bg: 'rgba(255,99,132,0.6)', border: 'rgba(255,99,132,1)' },
-    { bg: 'rgba(54,162,235,0.6)', border: 'rgba(54,162,235,1)' },
-    { bg: 'rgba(75,192,192,0.6)', border: 'rgba(75,192,192,1)' }
+const classColors =[
+    {bg: 'rgba(255, 99, 132, 0.6)', border: 'rgba(255, 99, 132, 1)'},
+    {bg: 'rgba(54, 162, 235, 0.6)', border: 'rgba(54, 162, 235, 1)'},
+    {bg: 'rgba(75, 192, 192, 0.6)', border: 'rgba(75, 192, 192, 1)'},
 ]
 
 // 頁面載入完成後執行
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded',function(){
     // 固定使用花瓣長度(2)和花瓣寬度(3)
     loadKnnData()
 })
 
-async function loadKnnData() {
+async function loadKnnData(){
     showLoading(true);
-    try {
+    try{
         const url = `/knn/api/data?k=${currentK}&feature_x=2&feature_y=3`
         const response = await fetch(url)
         const data = await response.json()
-        if (data.success) {
+        if(data.success){
             modelData = data
             targetNames = data.target_names
             featureNames = data.feature_names
-            // 繪製圖表
+
+            // 繪制圖表
             renderChart(data)
-        } else {
+        }else{
             showError(data.error)
         }
-    } catch (error) {
-        console.log(error.message)
-    } finally {
+    }catch(error){
+        showError(error.message)
+    }finally{
         showLoading(false)
     }
-
+    
 }
 
-// 繪製圖表
-function renderChart(data) {
-    console.table(modelData)
-    console.log(chart)
+// 繪制圖表
 
+function renderChart(data){
     //取得canvas的context
     const ctx = document.getElementById("knnChart").getContext('2d')
 
-    //如果圖表已經存在，先銷毀
-    if (chart) {
+
+    //如果圖表已經存在,先銷毀
+    if(chart){
         chart.destroy()
     }
 
-    //準備訓練資料集 - 按類別分類
+    // 準備資料集 - 按類別分組
     const datasets = []
-    const numClasses = data.target_names.length;
-
+    const numClasses = data.target_names.length
+    
+    
     // 訓練資料(按類別)
-    for (let classIdx = 0; classIdx < numClasses; classIdx++) {
-        const trainDataForClass = data.data.train.x, map((x, i) => ({
+    for(let classIdx=0; classIdx < numClasses; classIdx++){
+        
+        const trainDataForClass = data.data.train.x.map((x,i)=>({
             x: x,
             y: data.data.train.y[i],
             label: data.data.train.labels[i]
         })).filter(point => point.label == classIdx)
-
-
-        if (trainDataForClass.length > 0) {
+        
+        
+        if(trainDataForClass.length > 0){
             datasets.push({
-                label: `${data.target_names[classIdx]}{訓練}`,
+                label:`${data.target_names[classIdx]}(訓練)`,
                 data: trainDataForClass,
-                backgroundColor: classColor[classIdx].bg,
-                borderColor: classColor[classIdx].border,
+                backgroundColor: classColors[classIdx].bg,
+                borderColor:classColors[classIdx].border,
                 pointRadius: 6,
                 pointHoverRadius: 9,
                 pointStyle: 'circle',
-                borderWidth: 2
+                borderWidth:2
             })
         }
-
+        
     }
-
-    console.table(data.data.test.x)
+    console.table(data.data.test)
     // 測試資料(按類別和預測結果)
-    for (let classIdx = 0; classIdx < numClasses; classIdx++) {
+    for(let classIdx = 0; classIdx < numClasses; classIdx++){
         const testDataForClass = data.data.test.x.map((x, i) => ({
             x: x,
             y: data.data.test.y[i],
@@ -91,18 +93,18 @@ function renderChart(data) {
             prediction: data.data.test.predictions[i]
         })).filter(point => point.label == classIdx)
 
-        if (testDataForClass.length > 0) {
-            // 正確預測
+        if(testDataForClass.length > 0){
+            //正確預測
             const correctPredictions = testDataForClass.filter(
                 point => point.label === point.prediction
             )
 
-            if (correctPredictions.length > 0) {
+            if (correctPredictions.length>0){
                 datasets.push({
                     label: `${data.target_names[classIdx]}(測試-正確)`,
                     data: correctPredictions,
-                    backgroundColor: classColor[classIdx].bg,
-                    borderColor: classColor[classIdx].border,
+                    backgroundColor: classColors[classIdx].bg,
+                    borderColor: classColors[classIdx].border,
                     pointRadius: 8,
                     pointHoverRadius: 11,
                     pointStyle: 'triangle',
@@ -115,56 +117,54 @@ function renderChart(data) {
                 point => point.label !== point.prediction
             )
 
-            if (wrongPredictions.length > 0) {
+            if(wrongPredictions.length > 0){
                 datasets.push({
                     label: `${data.target_names[classIdx]}(測試-錯誤)`,
                     data: wrongPredictions,
-                    backgroundColor: 'rgba(255,0,0,0.6)',
-                    borderColor: 'rgba(255,0,0,1)',
+                    backgroundColor: 'rgba(255, 0, 0, 0.6)',
+                    borderColor: 'rgba(255, 0, 0, 1)',
                     pointRadius: 10,
                     pointHoverRadius: 13,
                     pointStyle: 'crossRot',
-                    borderWidth: 3
+                    borderWidth: 3 
                 })
             }
         }
     }
 
+    
     // 建立圖表
-    chart = new Chart(ctx, {
+    chart = new Chart(ctx,{
         type: 'scatter',
-        data: {
-            datasets: datasets
-        },
-        options: {
+        data: { datasets: datasets},
+        options:{
             responsive: true,
             maintainAspectRatio: false,
-            maintainAspectRatio: false,
-            plugins: {
-                title: {
+            plugins:{
+                title:{
                     display: true,
-                    text: `KNN 分類視覺化{k = ${data.k_neighbors}}`,
-                    font: {
+                    text: `KNN 分類視覺化(k=${data.k_neighbors})`,
+                    font:{
                         size: 18,
-                        weight: 'bold',
+                        weight: 'bold'
                     },
-                    padding: 20
+                    padding:20
                 },
-                legend: {
+                legend:{
                     display: true,
                     position: 'top',
-                    labels: {
+                    labels:{
                         usePointStyle: true,
                         padding: 12,
-                        font: {
+                        font:{
                             size: 11
                         }
                     }
                 }
             },
-            scales: {
-                x: {
-                    title: {
+            scales:{
+                x:{
+                    title:{
                         display: true,
                         text: `${data.feature_names[2]}(cm)`,
                         font: {
@@ -176,41 +176,42 @@ function renderChart(data) {
                         color: 'rgba(0,0,0,0.05)'
                     }
                 },
-                y: {
-                    title: {
+                y:{
+                    title:{
                         display: true,
                         text: `${data.feature_names[3]}(cm)`,
-                        font: {
+                        font:{
                             size: 14,
                             weight: 'bold'
                         }
                     },
-                    grid: {
-                        color: 'rgba(0,0,0,0.05)'
+                    grid:{
+                        color: 'rgba(0, 0, 0, 0.05)'
                     }
                 }
             },
-            animation: {
+            animation:{
                 duration: 800,
                 easing: 'easeInOutQuart'
             }
         }
     })
 
+    
 }
 
 // 顯示/隱藏載入狀態
-function showLoading(show) {
+function showLoading(show){
     const loading = document.getElementById('loading');
-    if (show) {
+    if(show){
         loading.classList.add('active')
-    } else {
+    }else{
         loading.classList.remove('active')
     }
 }
 
 // 顯示錯誤訊息
-function showError(message) {
+function showError(message){
     alert('錯誤:' + message)
     console.error(message)
 }
