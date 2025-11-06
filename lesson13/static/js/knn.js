@@ -179,10 +179,13 @@ function renderChart(data) {
                 tooltip: {
                     callbacks: {
                         label: function (context) {
-                            return "Hello!"
+                            const label = context.dataset.label || ''
+                            const x = context.parsed.x.toFixed(2)
+                            const y = context.parsed.y.toFixed(2)
+                            return `${label}:花瓣 ${x}cm x ${y}cm`
                         },
                         afterLabel: function (context) {
-                            return '點擊查看詳細資訊';
+                            return '💡點擊查看詳細資訊';
                         }
                     }
                 }
